@@ -1,0 +1,113 @@
+<div id="idle_container" class="extension-container">
+    <div id="idle-container-header" class="inline-drawer-toggle inline-drawer-header">
+        <b>定时任务</b>
+        <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+    </div>
+    <div id="idle-container-content" class="inline-drawer-content">
+    <div id="idle_nav" class="idle-nav" style="display:flex; gap:8px; margin-bottom:8px;">
+        <div class="menu_button_icon menu_button interactable idle-nav-item idle-nav-active" data-tab="global">全局设置</div>
+        <div class="menu_button_icon menu_button interactable idle-nav-item" data-tab="list">预约列表</div>
+        <div class="menu_button_icon menu_button interactable idle-nav-item" data-tab="new">新增预约</div>
+        <div class="menu_button_icon menu_button interactable idle-nav-item" data-tab="history">历史记录</div>
+    </div>
+
+    <div id="idle_section_global">
+        <fieldset>
+            <legend>全局设置</legend>
+            <label>
+                <input type="checkbox" id="idle_enabled">
+                启用定时任务
+            </label>
+            <div>
+                <label for="idle_sendAs">发送身份：</label>
+                <select id="idle_sendAs">
+                    <option value="user">用户</option>
+                    <option value="char">角色</option>
+                    <option value="sys">系统</option>
+                    <option value="raw">原始</option>
+                </select>
+            </div>
+
+            <div>
+                <label>
+                    <input type="checkbox" id="idle_include_prompt">
+                    包含提示词
+                </label>
+            </div>
+
+            <div class="idle-next-time">
+                下次发送时间：<span id="idle_next_time">--</span>
+                <button type="button" id="idle_refresh_next">↻ 刷新</button>
+            </div>
+        </fieldset>
+    </div>
+
+    <div id="idle_section_list" style="display:none;">
+        <fieldset>
+            <legend>预约列表</legend>
+            <div id="idle_appointments"></div>
+        </fieldset>
+    </div>
+
+    <div id="idle_section_new" style="display:none;">
+        <fieldset>
+            <legend>新增预约</legend>
+            <div id="idle_new_type_group">
+                <label><input type="radio" name="idle_new_type" value="once" id="idle_new_type_once" checked> 一次性</label>
+                <label><input type="radio" name="idle_new_type" value="daily" id="idle_new_type_daily"> 每日</label>
+                <label><input type="radio" name="idle_new_type" value="timer" id="idle_new_type_timer"> 定时</label>
+            </div>
+
+            <div id="idle_new_form_once" class="idle-new-form">
+                <div>
+                    <label for="idle_new_once_time">时间点：</label>
+                    <input type="datetime-local" id="idle_new_once_time">
+                </div>
+                <div>
+                    <label for="idle_new_once_prompt">提示语：</label>
+                    <textarea id="idle_new_once_prompt" rows="3" placeholder="Prompt"></textarea>
+                </div>
+            </div>
+
+            <div id="idle_new_form_daily" class="idle-new-form" style="display:none;">
+                <div>
+                    <label for="idle_new_daily_time">每日时间：</label>
+                    <input type="time" id="idle_new_daily_time">
+                </div>
+                <div>
+                    <label for="idle_new_daily_prompt">提示语：</label>
+                    <textarea id="idle_new_daily_prompt" rows="3" placeholder="Prompt"></textarea>
+                </div>
+            </div>
+
+            <div id="idle_new_form_timer" class="idle-new-form" style="display:none;">
+                <div>
+                    <label for="idle_new_timer">定时计时（秒）：</label>
+                    <input type="number" id="idle_new_timer" min="1" value="120">
+                </div>
+                <div>
+                    <label for="idle_new_repeats">重复次数（0 为无限）：</label>
+                    <input type="number" id="idle_new_repeats" min="0" value="1">
+                </div>
+                <div>
+                    <label for="idle_new_prompts">提示语（每行一条，随机抽取）：</label>
+                    <textarea id="idle_new_prompts" rows="5"></textarea>
+                </div>
+            </div>
+
+            <button type="button" id="idle_new_submit">提交</button>
+        </fieldset>
+    </div>
+
+    <div id="idle_section_history" style="display:none;">
+        <fieldset>
+            <legend>历史记录</legend>
+            <div style="margin-bottom:6px; display:flex; gap:6px;">
+                <button type="button" id="idle_history_export">导出</button>
+                <button type="button" id="idle_history_clear">清空</button>
+            </div>
+            <div id="idle_history_list"></div>
+        </fieldset>
+    </div>
+    </div>
+</div>

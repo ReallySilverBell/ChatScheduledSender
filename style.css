@@ -1,0 +1,281 @@
+/* 整体容器 */
+#idle_container {
+  --idle-border-color: var(--grey-3, #2c2c2c);
+  --idle-border-width: var(--border-width, 0.0625rem);
+  --idle-border: var(--idle-border-width) solid var(--idle-border-color);
+  --idle-bg: transparent;
+  --idle-card-bg: rgba(255, 255, 255, 0.02);
+  --idle-text: inherit;
+  --idle-muted: color-mix(in oklab, var(--idle-text), transparent 45%);
+  --idle-accent: var(--accent, #6aa9ff);
+  --idle-accent-strong: color-mix(in oklab, var(--idle-accent), white 10%);
+  --idle-danger: #ff6b6b;
+  --idle-radius: var(--radius, 0.375rem);
+  --idle-gap: 0.16rem;
+  --idle-pad: 0.16rem;
+  --idle-pad-lg: 0.2rem;
+  --idle-max-inline-size: var(--max-inline-size, 100%);
+  --idle-indicator-width: calc(var(--idle-border-width) * 3);
+
+  color: var(--idle-text);
+  max-inline-size: var(--idle-max-inline-size);
+}
+
+#idle_container details {
+  border: var(--idle-border);
+  border-radius: var(--idle-radius);
+  background: var(--idle-card-bg);
+  padding: 0;
+  transition: border-color .2s ease;
+}
+
+#idle_container summary {
+  cursor: pointer;
+  padding: var(--idle-pad) var(--idle-pad);
+  font-weight: 600;
+  background: var(--idle-bg);
+  border-radius: var(--idle-radius);
+  display: flex;
+  align-items: center;
+  gap: var(--idle-gap);
+  position: relative;
+}
+
+#idle_container summary::after {
+  content: '▶';
+  font-size: 12px;
+  margin-left: auto;
+  color: var(--idle-muted);
+  transition: transform .2s ease;
+}
+
+#idle_container details[open] > summary::after {
+  transform: rotate(90deg);
+}
+
+/* fieldset & legend */
+#idle_container fieldset {
+  border: var(--idle-border);
+  border-radius: var(--idle-radius);
+  margin: calc(var(--idle-gap) * 0.75) 0;
+  padding: var(--idle-pad);
+  background: var(--idle-bg);
+}
+
+#idle_container legend {
+  font-size: var(--idle-legend-size, 0.875rem);
+  font-weight: 600;
+  padding: 0 0.1rem;
+  color: var(--idle-muted);
+}
+
+/* label + checkbox 排版 */
+#idle_container label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--idle-gap);
+  margin: calc(var(--idle-gap) * 0.25) calc(var(--idle-gap) * 0.25) calc(var(--idle-gap) * 0.25) 0;
+  cursor: pointer;
+}
+
+/* 输入框和文本域 */
+#idle_container input[type="number"],
+#idle_container input[type="time"],
+#idle_container input[type="datetime-local"],
+#idle_container select,
+#idle_container textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--idle-pad) var(--idle-pad);
+  margin-top: calc(var(--idle-gap) * 0.6);
+  margin-bottom: calc(var(--idle-gap) * 0.6);
+  border-radius: var(--idle-radius);
+  border: var(--idle-border);
+  background: var(--idle-card-bg);
+  color: var(--idle-text);
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+#idle_container textarea {
+  resize: vertical;
+  min-block-size: var(--idle-textarea-min, 8em);
+}
+
+#idle_container input:focus,
+#idle_container select:focus,
+#idle_container textarea:focus {
+  border-color: color-mix(in oklab, var(--idle-accent), black 35%);
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--idle-accent), transparent 75%);
+}
+
+/* 按钮 */
+#idle_container button {
+  appearance: none;
+  border: var(--idle-border);
+  background: linear-gradient(to bottom, rgba(255,255,255,.04), rgba(255,255,255,0));
+  color: var(--idle-text);
+  padding: var(--idle-pad) var(--idle-pad);
+  border-radius: var(--idle-radius);
+  cursor: pointer;
+  margin-top: calc(var(--idle-gap) * 0.5);
+  transition: filter .15s ease, background-color .15s ease, border-color .15s ease;
+}
+
+#idle_container button:hover {
+  filter: brightness(1.08);
+}
+
+#idle_container input[type="checkbox"] {
+  margin: 0 2px 0 0;
+}
+
+/* Next reply scheduled 信息 */
+.idle-next-time {
+  margin-top: calc(var(--idle-gap) * 0.6);
+  padding: var(--idle-pad) var(--idle-pad);
+  background: var(--idle-card-bg);
+  border: var(--idle-border);
+  border-left: var(--idle-indicator-width) solid color-mix(in oklab, var(--idle-accent), white 10%);
+  border-radius: var(--idle-radius);
+  font-size: var(--idle-legend-size, 0.875rem);
+  color: var(--idle-muted);
+  display: flex;
+  align-items: center;
+  gap: var(--idle-gap);
+}
+
+/* 刷新按钮内联显示 */
+#idle_refresh_next {
+  margin-inline-start: calc(var(--idle-gap) * 0.33);
+  border-color: color-mix(in oklab, var(--idle-accent), black 35%);
+  color: var(--idle-text);
+  background: linear-gradient(to bottom, color-mix(in oklab, var(--idle-accent), transparent 80%), transparent);
+}
+
+/* （已移除）概览样式 - 保留空位以避免残留引用 */
+
+/* 日程项为网格布局 */
+#idle_container .schedule-entry {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: calc(var(--idle-gap) * 0.6);
+  align-items: center;
+  padding: var(--idle-pad);
+  border: var(--idle-border);
+  border-radius: var(--idle-radius);
+  background: var(--idle-card-bg);
+  margin: calc(var(--idle-gap) * 0.75) 0;
+}
+
+#idle_container .schedule-entry input[type="datetime-local"],
+#idle_container .schedule-entry input[type="time"],
+#idle_container .schedule-entry input[type="text"],
+#idle_container .schedule-entry textarea {
+  margin: 0;
+}
+
+#idle_container .schedule-entry button {
+  padding: var(--idle-pad) var(--idle-pad);
+  text-align: center;
+}
+
+#idle_container .schedule-entry .prompt-wrap {
+  grid-column: 1 / -1;
+}
+
+#idle_container .schedule-entry .once-delete,
+#idle_container .schedule-entry .daily-delete {
+  border-color: color-mix(in oklab, var(--idle-danger), black 30%);
+  color: color-mix(in oklab, var(--idle-danger), white 10%);
+  background: linear-gradient(to bottom, color-mix(in oklab, var(--idle-danger), transparent 75%), transparent);
+}
+
+/* 添加按钮主色 */
+#idle_add_schedule_once,
+#idle_add_schedule_daily {
+  border-color: color-mix(in oklab, var(--idle-accent), black 35%);
+  color: var(--idle-text);
+  background: linear-gradient(to bottom, color-mix(in oklab, var(--idle-accent), transparent 80%), transparent);
+}
+
+/* 移除局部紧凑覆盖，改为直接下调基础 Token */
+
+/* 新：预约列表项 */
+#idle_container .appointment-entry {
+  display: grid;
+  grid-template-columns: auto 64px minmax(220px, 1fr) auto;
+  gap: calc(var(--idle-gap) * 0.6);
+  align-items: center;
+  padding: var(--idle-pad);
+  border: var(--idle-border);
+  border-radius: var(--idle-radius);
+  background: var(--idle-card-bg);
+  margin: calc(var(--idle-gap) * 0.75) 0;
+}
+
+/* 顶部导航与高亮 */
+#idle_container .idle-nav {
+  border-bottom: var(--idle-border);
+  padding-bottom: calc(var(--idle-gap) * 0.5);
+  margin-bottom: calc(var(--idle-gap) * 1.0);
+}
+
+#idle_container .idle-nav .idle-nav-item {
+  padding: calc(var(--idle-pad) * 0.8) var(--idle-pad);
+  border-radius: var(--idle-radius);
+  color: var(--idle-text);
+}
+
+#idle_container .idle-nav .idle-nav-item.idle-nav-active {
+  position: relative;
+  color: var(--idle-accent-strong);
+}
+
+#idle_container .idle-nav .idle-nav-item.idle-nav-active::after {
+  content: '';
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: -6px;
+  height: 2px;
+  background: var(--idle-accent-strong);
+  border-radius: 2px;
+}
+
+/* 分区底部留白 */
+#idle_section_global,
+#idle_section_list,
+#idle_section_new {
+  margin-bottom: 10px;
+}
+
+#idle_container .appointment-entry .prompt-wrap {
+  grid-column: 1 / -1;
+}
+
+#idle_container .appointment-entry .appt-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#idle_container .appointment-entry .timer-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: calc(var(--idle-gap) * 0.6);
+}
+
+#idle_container .appointment-entry .timer-prompts-wrap {
+  grid-column: 1 / -1;
+}
+
+#idle_container .appointment-entry .appt-delete {
+  border: none;
+  background: transparent;
+  color: var(--idle-danger);
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}

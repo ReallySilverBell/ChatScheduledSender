@@ -1,0 +1,11 @@
+{
+    "display_name": "定时任务",
+    "loading_order": 6,
+    "requires": [],
+    "optional": [
+    ],
+    "js": "index.js",
+    "css": "style.css",
+    "author": "真银铃",
+    "version": "0.1.0"
+}
