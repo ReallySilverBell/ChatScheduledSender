@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { extension_settings, promptQuietForLoudResponse, fs, saveSettingsDebounced } from './deps.js';
+import { extension_settings, promptQuietForLoudResponse, fs, saveSettingsDebounced, sendMessageAsUser, Generate } from './deps.js';
 import { getCurrentChatKey } from './context.js';
 import { repeatCounts, isSendingByKey, lastSentAtMs } from './state.js';
 
@@ -22,11 +22,23 @@ export async function sendIdlePrompt(targetKey = null, customPrompt = '', sendAs
     const sendAs = sendAsOverride ?? extension_settings.idle.sendAs ?? 'char';
     const normalizedSendAs = sendAs === 'sys' ? 'system' : sendAs;
 
-    let selectedPrompt = customPrompt; // 不再回退到全局提示词库
-    const timestamp = getFullTimestamp();
-    const promptCore = includePrompt && selectedPrompt ? ` ${selectedPrompt}` : '';
-    const promptToSend = `[${timestamp}]${promptCore}`;
-    promptQuietForLoudResponse(normalizedSendAs, promptToSend);
+    const includeTimestamp = !!extension_settings.idle.includeTimestamp;
+    const timestamp = includeTimestamp ? getFullTimestamp() : '';
+    const timestampPart = includeTimestamp ? `[${timestamp}]` : '';
+    const promptCore = includePrompt ? ` ${customPrompt}` : '';
+    const promptToSend = `${timestampPart}${promptCore}`.trim();
+    if (!promptToSend) { isSendingByKey[key] = false; return; }
+    if (extension_settings.idle?.writeToContext) {
+        try {
+            await sendMessageAsUser(promptToSend);
+            await Generate('normal');
+        } catch (e) {
+            // 如果前台方式失败，退回原静默方式
+            try { promptQuietForLoudResponse(normalizedSendAs, promptToSend); } catch (_) {}
+        }
+    } else {
+        promptQuietForLoudResponse(normalizedSendAs, promptToSend);
+    }
 
     // 历史记录：在发送时写入，并标注“已发送”
     try {

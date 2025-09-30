@@ -420,7 +420,9 @@ export function handleNewAppointmentSubmit() {
 
 export function populateUIWithSettings() {
     $('#idle_enabled').prop('checked', !!extension_settings.idle.enabled).trigger('input');
+    $('#idle_include_timestamp').prop('checked', !!extension_settings.idle.includeTimestamp).trigger('input');
     $('#idle_include_prompt').prop('checked', !!extension_settings.idle.includePrompt).trigger('input');
+    $('#idle_write_context').prop('checked', !!extension_settings.idle.writeToContext).trigger('input');
     $('#idle_sendAs').val(extension_settings.idle.sendAs).trigger('input');
     renderAppointmentsList();
     setupNewAppointmentForm();

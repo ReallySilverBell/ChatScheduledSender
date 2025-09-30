@@ -6,6 +6,8 @@ import { generateApptId } from './appointments.js';
 export const defaultSettings = {
     enabled: false,
     includePrompt: false,
+    includeTimestamp: true,
+    writeToContext: false,
     sendAs: 'char',
     // 已移除调试日志相关设置
     // 已移除跨对话发送开关

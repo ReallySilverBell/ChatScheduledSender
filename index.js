@@ -20,7 +20,9 @@ function handleEnabledToggle() {
 function setupListeners() {
     const settingsToWatch = [
         ['idle_enabled', 'enabled', true],
+        ['idle_include_timestamp', 'includeTimestamp', true],
         ['idle_include_prompt', 'includePrompt', true],
+        ['idle_write_context', 'writeToContext', true],
         ['idle_sendAs', 'sendAs'],
     ];
     settingsToWatch.forEach(setting => attachUpdateListener(...setting));
